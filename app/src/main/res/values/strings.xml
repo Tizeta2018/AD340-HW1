@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Tizeta AD340</string>
+    <string name="edit_message">Search</string>
+    <string name="button_submit">Sumbit</string>
+    <string name="button_Home">Home</string>
+    <string name="button_Cameras">Cameras</string>
+    <string name="button_Maps">Maps</string>
+    <string name="button_ZMovies">Zombie Movies</string>
+    <string name="logo_movie">movie image</string>
+</resources>
