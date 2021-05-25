@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.zombie_movies
+import com.squareup.picasso.Picasso
 
 
 class ZombieMovies : AppCompatActivity()  {
@@ -42,6 +44,7 @@ class ZombieMovies : AppCompatActivity()  {
             var title: TextView = view.findViewById(R.id.title)
             var year: TextView = view.findViewById(R.id.year)
             var director: TextView = view.findViewById(R.id.director)
+            val movielogo: ImageView = view.findViewById(R.id.movielogo)
 
 
         }
@@ -61,6 +64,7 @@ class ZombieMovies : AppCompatActivity()  {
             holder.title.text = zmovie[0]
             holder.year.text = zmovie[1]
             holder.director.text = zmovie[2]
+            Picasso.get().load(zmovie[3]).into(holder.movielogo)
 
         }
 
