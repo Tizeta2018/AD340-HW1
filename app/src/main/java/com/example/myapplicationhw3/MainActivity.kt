@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
         val CameraBtn = findViewById<Button>(R.id.button3)
         CameraBtn.setOnClickListener {
-            Toast.makeText(this,"Getting Camera", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@MainActivity, Cameras::class.java))
 
         }
 
