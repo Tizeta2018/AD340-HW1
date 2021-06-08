@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         val MapBtn = findViewById<Button>(R.id.button5)
         MapBtn.setOnClickListener {
-            Toast.makeText(this,"Maps Loading!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@MainActivity, CameraMap::class.java))
 
         }
 
