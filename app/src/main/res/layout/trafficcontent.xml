@@ -10,8 +10,15 @@
 
     <ListView
         android:id="@+id/TrafficCams"
+<<<<<<< HEAD
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
+=======
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+>>>>>>> 3e81fa41aec16433c9ef06c15239f898f6b6ac50
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:background="@color/teal_200"
+=======
+>>>>>>> 3e81fa41aec16433c9ef06c15239f898f6b6ac50
     tools:context=".CameraMap">
 
 

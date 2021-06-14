@@ -25,7 +25,11 @@ class Cameras : AppCompatActivity(){
     var TrafficCams: ListView? = null
     var listAdapter: TrafficListAdapter? = null
     var camUrl = Cam.camUrl
+<<<<<<< HEAD
     val TrafficData: MutableList<Cam> = ArrayList()
+=======
+    var TrafficData: MutableList<Cam> = ArrayList()
+>>>>>>> 3e81fa41aec16433c9ef06c15239f898f6b6ac50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +43,22 @@ class Cameras : AppCompatActivity(){
         actionbar!!.title = "Traffic Cameras"
         actionbar.setDisplayHomeAsUpEnabled(true)
 
+<<<<<<< HEAD
 
         if (NetCap.hasNetworkConnection(this)) {
             TrafficCamData(camUrl)
+=======
+        val connectivityManager = getSystemService(ConnectivityManager::class.java)
+        val currentNetwork = connectivityManager.getActiveNetwork()
+        val caps = connectivityManager.getNetworkCapabilities(currentNetwork)
+        if (NetCap.hasNetworkConnection(this)) {
+            TrafficData(camUrl)
+>>>>>>> 3e81fa41aec16433c9ef06c15239f898f6b6ac50
         } else {
             Toast.makeText(applicationContext, "No Internet Connection!", Toast.LENGTH_SHORT).show()
         }
 
+<<<<<<< HEAD
     }
 
 
@@ -111,4 +124,77 @@ fun TrafficCamData(dataUrl: String?) {
         onBackPressed()
         return true
     }
+=======
+
+
+
+
+
+
+
+    }
+
+
+inner class TrafficListAdapter(
+    private val values: List<Cam>
+) : ArrayAdapter<Cam?>(
+    applicationContext,
+    0,
+    values
+) {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val inflater = context
+            .getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val rowView = inflater.inflate(R.layout.traffic_list, parent, false)
+        val description = rowView.findViewById<TextView>(R.id.intersection)
+        val image = rowView.findViewById<ImageView>(R.id.campreview)
+        description.text = values[position].description
+        val imageUrl = values[position].imageUrl()
+        if (!imageUrl.isEmpty()) {
+            Picasso.get().load(imageUrl).into(image)
+        }
+        return rowView
+    }
+}
+
+
+fun TrafficData(dataUrl: String?) {
+    val queue = Volley.newRequestQueue(this)
+    val jsonReq = JsonObjectRequest(Request.Method.GET, dataUrl, null, { response ->
+        Log.d("CAMERAS 1", response.toString())
+        try {
+            val features = response.getJSONArray("Features")
+            for (i in 0 until features.length()) {
+                val point = features.getJSONObject(i)
+                val pointCoords = point.getJSONArray("PointCoordinate")
+                val coords = doubleArrayOf(pointCoords.getDouble(0), pointCoords.getDouble(1))
+
+                val cameras = point.getJSONArray("Cameras")
+                for (j in 0 until cameras.length()) {
+                    val camera = point.getJSONArray("Cameras").getJSONObject(0)
+                    val c = Cam(
+                        camera.getString("Description"),
+                        camera.getString("ImageUrl"),
+                        camera.getString("Type"),
+                       coords
+                    )
+                    TrafficData.add(c)
+                }
+            }
+
+
+            listAdapter!!.notifyDataSetChanged()
+        } catch (e: JSONException) {
+
+            Log.d("CAMERAS error", e.message!!)
+        }
+    }) { error -> Log.d("JSON", "Error: " + error.message) }
+
+    queue.add(jsonReq)
+}
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+>>>>>>> 3e81fa41aec16433c9ef06c15239f898f6b6ac50
 }
