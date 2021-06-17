@@ -8,4 +8,11 @@
     <string name="button_ZMovies">Zombie Movies</string>
     <string name="logo_movie">movie image</string>
     <string name="cam_preview">Camera Preview</string>
+    <string name="username">username</string>
+    <string name="details">details</string>
+    <string name="enter_name">enter_name</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+
+
 </resources>
