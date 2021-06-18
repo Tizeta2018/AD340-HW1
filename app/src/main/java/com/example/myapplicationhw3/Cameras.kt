@@ -49,64 +49,64 @@ class Cameras : AppCompatActivity(){
     }
 
 
-inner class TrafficListAdapter(
-    private val values: List<Cam>
-) : ArrayAdapter<Cam?>(
-    applicationContext,
-    0,
-    values
-) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val inflater = context
-            .getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val rowView = inflater.inflate(R.layout.traffic_list, parent, false)
-        val description = rowView.findViewById<TextView>(R.id.intersection)
-        val image = rowView.findViewById<ImageView>(R.id.campreview)
-        val camera = values[position]
-        description.text = camera.description
-        val imageUrl = camera.imageUrl()
-        if (!imageUrl.isEmpty()) {
-            Picasso.get().load(imageUrl).into(image)
-        }
-        return rowView
-    }
-}
-
-
-fun TrafficCamData(dataUrl: String?) {
-    val queue = Volley.newRequestQueue(this)
-    val jsonReq = JsonObjectRequest(Request.Method.GET, dataUrl, null, { response ->
-        Log.d("CAMERAS 1", response.toString())
-        try {
-            val features = response.getJSONArray("Features")
-            for (i in 0 until features.length()) {
-                val point = features.getJSONObject(i)
-                val pointCoords = point.getJSONArray("PointCoordinate")
-
-
-                val camera = point.getJSONArray("Cameras")
-                for (j in 0 until camera.length()) {
-                    val camera = point.getJSONArray("Cameras").getJSONObject(0)
-                    val c = Cam(
-                        camera.getString("Description"),
-                        camera.getString("ImageUrl"),
-                        camera.getString("Type"),
-                        doubleArrayOf(pointCoords.getDouble(0), pointCoords.getDouble(1))
-                    )
-                    TrafficData.add(c)
-                }
+    inner class TrafficListAdapter(
+        private val values: List<Cam>
+    ) : ArrayAdapter<Cam?>(
+        applicationContext,
+        0,
+        values
+    ) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val inflater = context
+                .getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val rowView = inflater.inflate(R.layout.traffic_list, parent, false)
+            val description = rowView.findViewById<TextView>(R.id.intersection)
+            val image = rowView.findViewById<ImageView>(R.id.campreview)
+            val camera = values[position]
+            description.text = camera.description
+            val imageUrl = camera.imageUrl()
+            if (!imageUrl.isEmpty()) {
+                Picasso.get().load(imageUrl).into(image)
             }
-
-
-            listAdapter!!.notifyDataSetChanged()
-        } catch (e: JSONException) {
-
-            Log.d("CAMERAS error", e.message!!)
+            return rowView
         }
-    }) { error -> Log.d("JSON", "Error: " + error.message) }
+    }
 
-    queue.add(jsonReq)
-}
+
+    fun TrafficCamData(dataUrl: String?) {
+        val queue = Volley.newRequestQueue(this)
+        val jsonReq = JsonObjectRequest(Request.Method.GET, dataUrl, null, { response ->
+            Log.d("CAMERAS 1", response.toString())
+            try {
+                val features = response.getJSONArray("Features")
+                for (i in 0 until features.length()) {
+                    val point = features.getJSONObject(i)
+                    val pointCoords = point.getJSONArray("PointCoordinate")
+
+
+                    val camera = point.getJSONArray("Cameras")
+                    for (j in 0 until camera.length()) {
+                        val camera = point.getJSONArray("Cameras").getJSONObject(0)
+                        val c = Cam(
+                            camera.getString("Description"),
+                            camera.getString("ImageUrl"),
+                            camera.getString("Type"),
+                            doubleArrayOf(pointCoords.getDouble(0), pointCoords.getDouble(1))
+                        )
+                        TrafficData.add(c)
+                    }
+                }
+
+
+                listAdapter!!.notifyDataSetChanged()
+            } catch (e: JSONException) {
+
+                Log.d("CAMERAS error", e.message!!)
+            }
+        }) { error -> Log.d("JSON", "Error: " + error.message) }
+
+        queue.add(jsonReq)
+    }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
